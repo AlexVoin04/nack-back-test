@@ -7,42 +7,61 @@
 
 > Проекты нужны для проверки публикации Docker-образов в GitHub Container Registry (GHCR).
 
-## 🚀 1. Сборка тестовой библиотеки (test-natk-lib)
+Структура репозитория:
 
-Перейдите в папку test-natk-lib и выполните:
-
-```shell
-./gradlew publishToMavenLocal
+```bash
+root/
+│  settings.gradle
+│  build.gradle
+|  Dockerfile
+│
+├── test-natk-lib/
+│     build.gradle
+│     src/
+│
+└── test-natk/
+      build.gradle
+      src/
 ```
 
-Это соберёт библиотеку и установит её в `~/.m2/repository`, чтобы проект `test-natk` мог её использовать.
+## 📚 1. Работа с многомодульным проектом
 
-## 🛠 2. Сборка Spring Boot API (test-natk)
-
-Перейдите в папку test-natk и выполните:
+Так как проект является многомодульным, зависимости настраиваются через Gradle:
+В `test-natk/build.gradle`:
 
 ```shell
-./gradlew clean build --refresh-dependencies
+implementation project(":test-natk-lib")
 ```
 
 Эта команда пересоберёт проект и обновит зависимости, включая локально опубликованную `test-natk-lib`.
 
-## ☕ Требование: JDK
+## 🛠 2. Сборка проекта
 
-Все команды должны выполняться под одинаковым JDK >=17 (Например, 23).
-
-Проверить текущую версию можно так:
+Выполняется из корневой директории:
 
 ```shell
-java -version
+./gradlew clean build
 ```
 
-Если используется не JDK, который больше 16, установите временно переменные окружения (PowerShell):
+## 🚀 3. Запуск Spring Boot API
+
+Из корня:
 
 ```shell
-$env:JAVA_HOME="C:\Users\Ivanov-AS.NATK\Desktop\jdk-23.0.1_windows-x64_bin\jdk-23.0.1"
-$env:PATH="$env:JAVA_HOME\bin;$env:PATH"
-java -version
+./gradlew :test-natk:bootRun
 ```
 
-Где: `C:\Users\Ivanov-AS.NATK\Desktop\jdk-23.0.1_windows-x64_bin\jdk-23.0.1` - путь к установленному JDK.
+По умолчанию приложение стартует на порту из `application.properties` (обычно 8080).
+
+Проверка:
+
+```shell
+http://localhost:8080/hello?name=Natk
+```
+
+## 🐳 4. GitHub Container Registry
+
+Этот репозиторий используется для тестирования:
+
+- сборки Docker-образа Spring Boot приложения test-natk
+- публикации в GHCR
