@@ -23,7 +23,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'org.example:test-natk-lib:1.0.0'
+//    implementation 'org.example:test-natk-lib:1.0.0'
+    implementation project(":test-natk-lib")
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 

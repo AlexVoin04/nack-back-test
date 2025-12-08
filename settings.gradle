@@ -1,0 +1,4 @@
+rootProject.name = "root-project"
+
+include("test-natk-lib")
+include("test-natk")
