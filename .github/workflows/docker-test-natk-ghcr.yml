@@ -44,7 +44,6 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build Docker image using Jib
-        working-directory: ./test-natk
         run: |
           ./gradlew :test-natk:jibDockerBuild --image=${{ env.IMAGE_NAME }}:latest
 
