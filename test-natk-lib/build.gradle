@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
