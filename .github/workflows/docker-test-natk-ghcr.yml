@@ -1,4 +1,4 @@
-name: Build and push to GHCR
+name: Build and push test-natk to GHCR
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: test-natk   # имя образа (можно любое)
+  IMAGE_NAME: test-natk   # имя образа
 
 jobs:
   build-and-push:
@@ -26,9 +26,6 @@ jobs:
           java-version: '23'
           distribution: 'temurin'
           cache: gradle
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
 
       - name: Set lowercase owner
         run: |

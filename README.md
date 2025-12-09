@@ -1,9 +1,10 @@
 # 📦 Test NATK — Проверка GitHub Container Registry
 
-Этот репозиторий содержит два тестовых проекта:
+Этот репозиторий содержит **три модуля Gradle**:
 
-- test-natk-lib — простая Java-библиотека
-- test-natk — Spring Boot API, использующее библиотеку
+- `test-natk-lib` — простая Java-библиотека
+- `test-natk` — Spring Boot API, использующее библиотеку
+- `test-natk-admin` — второй Spring Boot сервис
 
 > Проекты нужны для проверки публикации Docker-образов в GitHub Container Registry (GHCR).
 
@@ -13,16 +14,14 @@
 root/
 │  settings.gradle
 │  build.gradle
-|  Dockerfile
+│  Dockerfile
 │
 ├── test-natk-lib/
-│     build.gradle
-│     src/
-│
-└── test-natk/
-      build.gradle
-      src/
+├── test-natk/ ← Dockerfile + GHCR workflow
+└── test-natk-admin/ ← Dockerfile + GHCR workflow
 ```
+
+---
 
 ## 📚 1. Работа с многомодульным проектом
 
@@ -33,17 +32,9 @@ root/
 implementation project(":test-natk-lib")
 ```
 
-Эта команда пересоберёт проект и обновит зависимости, включая локально опубликованную `test-natk-lib`.
+---
 
-## 🛠 2. Сборка проекта
-
-Выполняется из корневой директории:
-
-```shell
-./gradlew clean build
-```
-
-## 🚀 3. Запуск Spring Boot API
+## 🚀 2. Запуск Spring Boot API test-natk
 
 Из корня:
 
@@ -59,9 +50,44 @@ implementation project(":test-natk-lib")
 http://localhost:8080/hello?name=Natk
 ```
 
+---
+
+## 🚀 3. Запуск Spring Boot API test-natk-admin:
+
+Из корня:
+
+```shell
+./gradlew :test-natk-admin:bootRun
+```
+
+Проверка:
+
+```shell
+http://localhost:8082/admin/status
+```
+
+---
+
 ## 🐳 4. GitHub Container Registry
 
 Этот репозиторий используется для тестирования:
 
 - сборки Docker-образа Spring Boot приложения test-natk
 - публикации в GHCR
+
+---
+
+## 🚀 5. GitHub Container Registry
+
+Для каждого сервиса есть отдельный workflow:
+
+- .github/workflows/docker-test-natk.yml
+
+- .github/workflows/docker-test-natk-admin.yml
+
+При пуше в master образы автоматически публикуются в GHCR.
+
+```
+ghcr.io/<owner>/test-natk
+ghcr.io/<owner>/test-natk-admin
+```
