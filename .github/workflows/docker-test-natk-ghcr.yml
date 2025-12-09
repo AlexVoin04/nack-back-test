@@ -40,11 +40,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build Docker image using Jib
+        run: |
+          ./gradlew :test-natk:jibDockerBuild --image=${{ env.IMAGE_NAME }}:latest
+
+      - name: Tag and Push to GHCR
         run: |
           IMAGE_ID=ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}
           VERSION=${{ github.sha }}
 
-          docker build -t $IMAGE_ID:$VERSION -t $IMAGE_ID:latest .
+          # tag
+          docker tag ${{ env.IMAGE_NAME }}:latest $IMAGE_ID:$VERSION
+          docker tag ${{ env.IMAGE_NAME }}:latest $IMAGE_ID:latest
+
+          # push
           docker push $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:latest
