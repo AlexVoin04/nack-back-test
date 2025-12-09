@@ -40,6 +40,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Build Docker image using Jib
         working-directory: ./test-natk
         run: |
