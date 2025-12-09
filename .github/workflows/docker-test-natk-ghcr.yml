@@ -45,6 +45,6 @@ jobs:
           IMAGE_ID=ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}
           VERSION=${{ github.sha }}
 
-          docker build -t $IMAGE_ID:$VERSION -t $IMAGE_ID:latest .
+          docker build -f ./test-natk/Dockerfile -t $IMAGE_ID:$VERSION -t $IMAGE_ID:latest ./test-natk
           docker push $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:latest
