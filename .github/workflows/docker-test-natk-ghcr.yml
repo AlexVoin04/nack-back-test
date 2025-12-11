@@ -45,9 +45,8 @@ jobs:
 
       - name: Extract Version from build.gradle
         id: extract_version
-        working-directory: ./test-natk
         run: |
-          version=$(./gradlew properties --no-daemon --console=plain -q | grep "^version:" | awk '{print $2}')
+          version=$(./gradlew :test-natk:properties --no-daemon --console=plain -q | grep "^version:" | awk '{print $2}')
           echo "VERSION=$version" >> $GITHUB_ENV
 
       - name: Build Docker image using Jib
