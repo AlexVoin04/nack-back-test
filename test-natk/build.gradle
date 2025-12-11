@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.test-natk'
-version = '0.2.0'
+version = '0.2.1'
 description = 'Demo project for Spring Boot'
 
 java {
