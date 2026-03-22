@@ -12,13 +12,13 @@
 
 ```bash
 root/
+|  .github/workflows ← GHCR workflows
 │  settings.gradle
 │  build.gradle
-│  Dockerfile
 │
 ├── test-natk-lib/
-├── test-natk/ ← Dockerfile + GHCR workflow
-└── test-natk-admin/ ← Dockerfile + GHCR workflow
+├── test-natk/
+└── test-natk-admin/
 ```
 
 ---
